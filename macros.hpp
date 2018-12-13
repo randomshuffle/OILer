@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <sstream>
+#include <fstream>
 using namespace std;
 
 struct macro_header;

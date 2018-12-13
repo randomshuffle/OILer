@@ -1,0 +1,16 @@
+x y
+z
+13
+1 u x 2
+2 u _ZEROVAR 14
+3 [ADD] u _ONEVAR ; v
+4 [ADD] z y ; t
+5 z z 6
+6 u u 7
+7 r1 r1 8
+8 r2 r2 9
+9 r1 t 10
+10 z r1 11
+11 r2 v 12
+12 u r2 13
+13 _ZEROVAR _ZEROVAR 2

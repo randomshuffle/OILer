@@ -7,8 +7,6 @@
 #include "macros.hpp"
 using namespace std;
 
-int n; // number of instructions
-
 macro prog; // we will obtain information from the user, 
 // parse it into this data structure and then use our macro_runner
 // function on it
@@ -30,12 +28,18 @@ void get_words(string s, bool input_yes) {
 
 vector <int> macro_runner(macro m, vector <int> init_vals) {
 
+    int n = m.insts.size() - 1;
     unordered_map <string, int> db;
 
     // initialize inputs
     for (int i = 0; i < m.inputs.size(); i++) {
         db.insert(make_pair(m.inputs[i], init_vals[i]));
     }
+
+    // insert the two intermediate variables, 
+    // instructions should not modify these
+    db.insert(make_pair("_ONEVAR", 1));
+    db.insert(make_pair("_ZEROVAR", 0));
     
     // run the program
     int cur_pos = 1;
@@ -54,11 +58,17 @@ vector <int> macro_runner(macro m, vector <int> init_vals) {
 
             // run macro
             vector <int> results = macro_runner(*(my_inst.mac), init_vals_for_macro);
-            
+            //for (int i = 0; i < results.size(); i++) cout<<results[i]<<" ";
+            //cout<<endl;   
+
             // obtain return values from the macro
             for (int i = 0; i < my_inst.output_args.size(); i++) {
-                db.insert(make_pair(my_inst.output_args[i], results[i]));
+                if (db.find(my_inst.output_args[i]) == db.end()) 
+                    db.insert(make_pair(my_inst.output_args[i], results[i]));
+                else db[my_inst.output_args[i]] = results[i];
             }
+
+            cur_pos++;
         }
 
         // regular instruction
@@ -66,13 +76,26 @@ vector <int> macro_runner(macro m, vector <int> init_vals) {
             string x = my_inst.x;
             string y = my_inst.y;
             int l = my_inst.l;
-
+            
             if (db.find(x) == db.end()) db.insert(make_pair(x, 0));
             if (db.find(y) == db.end()) db.insert(make_pair(y, 0));
+            
             db[x] -= db[y];
+            
             if (db[x] == 0) cur_pos = l;
             else cur_pos++;
+            
         }
+
+        /*
+        if (macname == "top") {
+            cout<<"Position: "<<cur_pos<<endl;
+            for (auto it = db.begin(); it != db.end(); ++it) {
+                cout<<it->first<<": "<<it->second<<endl;
+            }
+            cout<<endl;
+        }
+        */
     }
 
     // prepare outputs
@@ -108,6 +131,7 @@ int main () {
     } 
     
     cout<<"\nSpecify n (the number of instructions): ";
+    int n;
     cin>>n;
 
     cout<<"Enter the "<<n<<" instructions: \n";
@@ -147,7 +171,7 @@ int main () {
 
             auto it = all_the_macros.find(macro_name);
             if (it == all_the_macros.end()) {
-                cout<<"No such macro exists\n";
+                cout<<"No such macro exists. Reenter instruction\n";
                 i--;
                 goto next_step;
             }
@@ -168,7 +192,7 @@ int main () {
                 }
 
                 if (found_yet.find(tmp) != found_yet.end()) {
-                    cout<<"Invalid arguments to the macro (same variables)\n";
+                    cout<<"Invalid arguments to the macro (same variables). Reenter instruction\n";
                     i--;
                     goto next_step;
                 }
@@ -181,11 +205,11 @@ int main () {
             int num_outputs = it->second->outputs.size();
 
             if (num_inputs != my_inputs.size() || num_outputs != my_outputs.size()) {
-                cout<<"Incorrect number of variables for macro\n";
+                cout<<"Incorrect number of variables for macro. Reenter instruction\n";
                 i--;
                 goto next_step;
             }
- 
+
             foo.mac = it->second;
             foo.input_args = my_inputs;
             foo.output_args = my_outputs;
