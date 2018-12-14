@@ -1,0 +1,20 @@
+x y
+z
+14
+1 [ADD] _ZEROVAR _ONEVAR ; z
+2 u y 3
+3 u _ZEROVAR 15
+4 [ADD] u _ONEVAR ; v
+5 [MULT] z x ; t
+6 z z 7
+7 u u 8
+8 r1 r1 9
+9 r2 r2 10
+10 r1 t 11
+11 z r1 12
+12 r2 v 13
+13 u r2 14
+14 _ZEROVAR _ZEROVAR 3
+
+
+// returns x^y

@@ -1,0 +1,82 @@
+Contents of the project:
+1) interpreter.cpp : contains the actual interpreter with the eval function 
+and which parses the user input.
+2) macros.cpp : contains the init_macros() function which initializes all the 
+macros in the macro_list folder.
+3) macros.hpp and macros.hpp.gch : links the two cpp files
+4) macro_list : folder containing macros such as ADD.txt and MULT.txt.
+5) a.out : compiled interpreter to use. If files are modified, then the 
+following command should be used to compile: 
+g++ -std=c++11 -O2 macros.cpp interpreter.cpp
+Then the executable would be executed with ./a.out
+
+
+
+
+This is an interpreter for the classical OIL. That is, every instruction is 
+of the form k x y l where k is the instruction number (k_i = i for all i), 
+x and y are registers, and l is an instruction number. Every register contains
+integers (not necessarily non-negative).
+
+Every instruction follows the following rule: the register x's value gets 
+decremented by the value of register y. After performing this decrement, if
+the value in register x is 0 then we jump to line l otherwise we just go to 
+line k+1.
+
+Also, there is at least one register which is initialized with a value 1 (and
+all other registers other than the input registers) are initialized with a 
+value 0. In the interpreter, we use the registers called _ONEVAR and _ZEROVAR
+for these values (therefore the user should not use these variable names, also
+the user should not modify the values of these registers).
+
+Finally, the interpreter also implements macros. Instead of the standard
+k x y l instruction, we can have an instruction like 
+k [MACRO_NAME] x_1 x_2 x_3 ; y_1 y_2
+(note the space on both sides of the semicolon)
+The above macro's name is MACRO_NAME, the input variables are x_1, x_2, x_3 
+and the outputs are y_1, y_2. So MACRO_NAME is a function from Z^3 to Z^2.
+Note that these macros are just concise versions of a series of instructions.
+All output variables are set to 0 in the beginning, and also none of the input
+variables can be the same as any of the output variables. This is because we
+don't want to give extra power to the interpreter using the C++'s stack or 
+other features in C++. We only want to use these macros as short 
+representations of several lines of OIL code, and the macros were implemented
+very carefully such that this is true.
+
+Also, you can add your own macros! The only 2 things you need to do are:
+1) give your macro a name, say ACK and then save the OIL code in a file called
+ACK.txt in macro_list. The first line is the input variables, the second line 
+is the output variables, the third line has the number of instructions (n), 
+and the n lines following that must contain the program.
+2) add the string "ACK" to the files vector in macros.cpp. If your macro uses
+other macros then it must be added to the vector after the macros that it 
+uses (the list of the macro names must be any topological sort of the graph
+of dependencies). 
+
+
+
+
+Finally, we want to show that the Classical OIL is actually computationally 
+complete. I wanted to implement Ackermann's function to show just how 
+powerful this OIL is, but implementing a recursion stack was pretty difficult.
+
+We know that the OIL is computationally complete because Register Machines are
+computationally complete and all the 3 instructions in an RM can be simulated 
+by the classical OIL:
+1) inc r k : can be done in 3 instructions at any point p in the program:
+    p u _ONEVAR p+1
+    p+1 r u p+2
+    p+2 _ZEROVAR _ZEROVAR k
+    where u is a temporary variable initialized to 0.
+2) dec r k l : can be done in 3 instructions at any point p in the program:
+    p r _ZEROVAR l
+    p+1 r _ONEVAR p+2
+    p+2 _ZEROVAR _ZEROVAR k
+3) halt : can be done in 1 instruction at any point p in the program:
+    p _ZEROVAR _ZEROVAR n+1
+    where the number of instructions is n
+
+Since we can do all the RM instructions in our OIL without (changes to all 
+variables are local and are not accessed anywhere else), therefore the 
+classical OIL is computationally complete.
+

@@ -1,0 +1,11 @@
+x y
+z
+8
+1 [SUB] x y ; u
+2 [POS] u ; w
+3 w _ONEVAR 7
+4 t x 5
+5 z t 6
+6 _ZEROVAR _ZEROVAR 9
+7 t y 8
+8 z t 9

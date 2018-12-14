@@ -1,0 +1,27 @@
+x
+y
+20
+1 z x 19
+2 x _ZEROVAR 17
+3 z _ZEROVAR 19
+4 u u 5
+5 v v 6
+6 x2 x2 7
+7 z2 z2 8
+8 [ADD] x _ONEVAR ; x2
+9 [ADD] z _ONEVAR ; z2
+10 x x 11
+11 u x2 12
+12 x u 13
+13 z z 14
+14 v z2 15
+15 z v 16
+16 _ZEROVAR _ZEROVAR 2
+17 [ADD] _ZEROVAR _ZEROVAR ; y
+18 _ZEROVAR _ZEROVAR 21
+19 [ADD] _ZEROVAR _ONEVAR ; y
+20 _ZEROVAR _ZEROVAR 21
+
+
+
+// returns 1 iff x is non-negative

@@ -9,8 +9,11 @@ void init_macros() {
 
     // insert macros here
     files.push_back("ADD");
+    files.push_back("SUB");
     files.push_back("MULT");
-
+    files.push_back("POS");
+    files.push_back("MIN");
+    files.push_back("EXP");
 
     for (int f = 0; f < files.size(); f++) {
 
