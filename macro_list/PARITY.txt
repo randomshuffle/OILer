@@ -1,0 +1,11 @@
+x
+y
+5
+1 y y 2
+2 x _ONEVAR 5
+3 x _ONEVAR 6
+4 _ZEROVAR _ZEROVAR 1
+5 [COPY] _ONEVAR ; y
+
+
+// returns 1 iff the number is even 

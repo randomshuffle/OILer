@@ -17,4 +17,4 @@ z
 14 _ZEROVAR _ZEROVAR 3
 
 
-// returns x^y
+// returns x^y, requires y to be non-negative

@@ -10,10 +10,14 @@ void init_macros() {
     // insert macros here
     files.push_back("ADD");
     files.push_back("SUB");
-    files.push_back("MULT");
+    files.push_back("COPY");
+    files.push_back("PARITY");
     files.push_back("POS");
     files.push_back("MIN");
+    files.push_back("ABS");
+    files.push_back("MULT");
     files.push_back("EXP");
+    files.push_back("DIVMOD");
 
     for (int f = 0; f < files.size(); f++) {
 

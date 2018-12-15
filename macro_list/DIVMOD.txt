@@ -1,0 +1,15 @@
+x y
+z w
+8
+1 [MIN] x y ; s
+2 s x 8
+3 [ADD] z _ONEVAR ; z2
+4 [COPY] z2 ; z
+5 z2 z2 6
+6 x y 7
+7 _ZEROVAR _ZEROVAR 1
+8 [COPY] x ; w
+
+
+// returns floor(x/y) in z and (x % y) in w. 
+// Requires both x and y to be positive

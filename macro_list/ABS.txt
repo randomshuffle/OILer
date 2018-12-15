@@ -1,0 +1,8 @@
+x
+y
+5
+1 [POS] x ; z
+2 z _ZEROVAR 5
+3 [COPY] x ; y
+4 _ZEROVAR _ZEROVAR 6
+5 y x 6
